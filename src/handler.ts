@@ -6,13 +6,12 @@ const app = new Koa();
 const router = new Router();
 
 router.get('/hello/:name', (ctx, next) => {
-  const name: string | undefined = ctx.params['name'];
-  if (!name) {
-    ctx.throw('name is required', 400);
-  }
+  const name = ctx.params['name'];
   ctx.response.body = `Hello, ${name}!`;
   return next();
 });
+
+app.use(router.routes());
 
 const handler = serverlessHttp(app);
 

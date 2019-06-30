@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "smoketest": "tsc -p . --noEmit",
+    "prebuild": "yarn clean && yarn smoketest",
+    "build": "parcel build src/index.ts --target=node --global handler -o dist/index.js --bundle-node-modules --no-source-maps",
+    "deploy": "cd deploy && pulumi up",
+    "test": "jest --coverage"
+  },
   "devDependencies": {
     "@pulumi/aws": "^0.18.16",
     "@pulumi/pulumi": "^0.17.21",
@@ -13,6 +21,7 @@
     "@types/node": "^12.0.10",
     "@types/supertest": "^2.0.7",
     "jest": "^24.8.0",
+    "parcel": "^1.12.3",
     "prettier": "^1.18.2",
     "supertest": "^4.0.2",
     "ts-jest": "^24.0.2",

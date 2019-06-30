@@ -1,22 +1,22 @@
 import * as pulumi from '@pulumi/pulumi';
 import * as aws from '@pulumi/aws';
-import * as awsx from '@pulumi/awsx'
+import * as awsx from '@pulumi/awsx';
 
 const helloServiceRole = new aws.iam.Role('hello-service-role', {
   assumeRolePolicy: JSON.stringify({
     Version: '2012-10-17',
     Statement: [
       {
-        Action: "sts:AssumeRole",
+        Action: 'sts:AssumeRole',
         Principal: {
-            Service: "lambda.amazonaws.com",
+          Service: 'lambda.amazonaws.com'
         },
-        Effect: "Allow",
-        Sid: "",
+        Effect: 'Allow',
+        Sid: ''
       }
     ]
   })
-})
+});
 
 const helloServiceLambda = new aws.lambda.Function('hello-service', {
   runtime: aws.lambda.NodeJS10dXRuntime,
@@ -27,11 +27,13 @@ const helloServiceLambda = new aws.lambda.Function('hello-service', {
 });
 
 const helloServiceApi = new awsx.apigateway.API('hello-service', {
-  routes: [{
-    path: '/{route+}',
-    method: 'ANY',
-    eventHandler: helloServiceLambda
-  }]
+  routes: [
+    {
+      path: '/{route+}',
+      method: 'ANY',
+      eventHandler: helloServiceLambda
+    }
+  ]
 });
 
 export const apiBaseUrl = helloServiceApi.url;

@@ -19,7 +19,7 @@ test('should greet user when name is specified', async () => {
   const [srv, cleanUp] = await useServer();
   try {
     const name = 'someone';
-    return request(srv)
+    await request(srv)
       .get(`/hello/${name}`)
       .expect(200, `Hello, ${name}!`);
   } finally {
